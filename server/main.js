@@ -12,3 +12,12 @@ Meteor.startup(() => {
     ].forEach(insertCounter);
   }
 });
+
+Meteor.publish('allUsers', function () {
+  return CountersCollection.find();
+});
+
+Meteor.publish('updateUser', function ({ id, count }) {
+  CountersCollection.update({ _id: id }, { $set: { count } });
+  return CountersCollection.find();
+})
