@@ -1,31 +1,14 @@
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
+import { CountersCollection } from '/imports/api/counters';
 
-function insertLink({ title, url }) {
-  LinksCollection.insert({title, url, createdAt: new Date()});
-}
+const insertCounter = ({ user, count }) => CountersCollection.insert({ user, count });
 
 Meteor.startup(() => {
-  // If the Links collection is empty, add some data.
-  if (LinksCollection.find().count() === 0) {
-    insertLink({
-      title: 'Do the Tutorial',
-      url: 'https://www.meteor.com/tutorials/react/creating-an-app'
-    });
-
-    insertLink({
-      title: 'Follow the Guide',
-      url: 'http://guide.meteor.com'
-    });
-
-    insertLink({
-      title: 'Read the Docs',
-      url: 'https://docs.meteor.com'
-    });
-
-    insertLink({
-      title: 'Discussions',
-      url: 'https://forums.meteor.com'
-    });
+  // If the Counters collection is empty, add some data.
+  if (CountersCollection.find().count() === 0) {
+    [
+      { user: 'User A', count: 0 },
+      { user: 'User B', count: 0 },
+    ].forEach(insertCounter);
   }
 });
